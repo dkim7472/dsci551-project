@@ -61,7 +61,7 @@ INSERT INTO portfolios (name, owner) VALUES
     ('Growth Portfolio', 'David Kim'),
     ('Conservative Portfolio', 'David Kim');
 
--- Insert assets (diverse sectors for meaningful analysis)
+-- Insert assets
 INSERT INTO assets (symbol, name, sector, asset_type) VALUES
     ('AAPL', 'Apple Inc.', 'Technology', 'stock'),
     ('MSFT', 'Microsoft Corp.', 'Technology', 'stock'),
@@ -76,7 +76,7 @@ INSERT INTO assets (symbol, name, sector, asset_type) VALUES
     ('SPY', 'SPDR S&P 500 ETF', 'Index', 'etf'),
     ('AGG', 'iShares Core US Aggregate Bond', 'Fixed Income', 'bond');
 
--- Insert positions for Growth Portfolio (portfolio_id = 1)
+-- Insert positions for Growth Portfolio
 INSERT INTO positions (portfolio_id, asset_id, quantity, avg_cost) VALUES
     (1, 1, 50, 145.00),    -- 50 shares AAPL
     (1, 2, 30, 280.00),    -- 30 shares MSFT
@@ -88,7 +88,7 @@ INSERT INTO positions (portfolio_id, asset_id, quantity, avg_cost) VALUES
     (1, 11, 100, 420.00),  -- 100 shares SPY
     (1, 12, 200, 98.00);   -- 200 shares AGG
 
--- Insert positions for Conservative Portfolio (portfolio_id = 2)
+-- Insert positions for Conservative Portfolio
 INSERT INTO positions (portfolio_id, asset_id, quantity, avg_cost) VALUES
     (2, 5, 60, 135.00),    -- 60 shares JPM
     (2, 6, 80, 32.00),     -- 80 shares BAC
@@ -113,7 +113,7 @@ INSERT INTO prices (asset_id, price, as_of) VALUES
     (11, 510.25, CURRENT_TIMESTAMP),   -- SPY
     (12, 99.80, CURRENT_TIMESTAMP);    -- AGG
 
--- Insert some historical prices (for trend demonstration)
+-- Insert some historical prices
 INSERT INTO prices (asset_id, price, as_of) VALUES
     (1, 172.30, CURRENT_TIMESTAMP - INTERVAL '7 days'),
     (1, 169.80, CURRENT_TIMESTAMP - INTERVAL '14 days'),

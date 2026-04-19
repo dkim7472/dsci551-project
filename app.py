@@ -138,7 +138,7 @@ def whatif_simulation():
     print(f"    [2] Energy Crisis (Energy -25%)")
 
 
-    choice = input("\n  Enter choice (1-5): ")
+    choice = input("\n  Enter choice (1-2): ")
 
     if choice == "1":
         scenario_name = "Tech Crash"
@@ -345,7 +345,7 @@ def main():
         print(f"    [3] MVCC Concurrent Access Demo")
         print(f"    [4] Exit")
 
-        choice = input("\n  Enter choice (1-3): ")
+        choice = input("\n  Enter choice (1-4): ")
 
         if choice == "1":
             portfolio_snapshot()
