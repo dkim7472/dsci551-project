@@ -27,55 +27,75 @@ This project demonstrates how PostgreSQL's MVCC mechanism enables consistent dat
 
 ---
 
-## Setup Instructions
+## How to Download and Run This Project
 
-### 1. Install PostgreSQL
+### Step 1: Clone the Repository
 
-- **Windows:** Download from https://www.postgresql.org/download/windows/
-- **macOS:** `brew install postgresql@16`
-- **Ubuntu:** `sudo apt install postgresql`
-
-Make sure PostgreSQL is running.
-
-### 2. Create the Database
+Open a terminal (Command Prompt, PowerShell, or Terminal) and run:
 
 ```bash
-psql -U postgres -c "CREATE DATABASE portfolio_risk;"
+git clone https://github.com/dkim7472/dsci551-project.git
+cd dsci551-project
 ```
 
-### 3. Run the Schema and Seed Data
+### Step 2: Make Sure PostgreSQL is Running
+
+- **Windows:** Open the Start menu, search for "pgAdmin" or "Services" and make sure the PostgreSQL service is running.
+- **macOS:** Run `brew services start postgresql@16`
+- **Ubuntu:** Run `sudo systemctl start postgresql`
+
+### Step 3: Create the Database
+
+```bash
+psql -U postgres -c "CREATE DATABASE portfolio_mvcc;"
+```
+
+If prompted for a password, enter your PostgreSQL password (default is usually `postgres`).
+
+### Step 4: Load the Schema and Sample Data
 
 ```bash
 psql -U postgres -d portfolio_risk -f sql/schema_and_seed.sql
 ```
 
-This creates four tables (portfolios, assets, positions, prices), two views (latest_prices, portfolio_holdings), indexes, and populates the database with sample data including 12 assets across 6 sectors and 2 portfolios.
+This creates:
+- 4 tables: portfolios, assets, positions, prices
+- 2 views: latest_prices, portfolio_holdings
+- 2 indexes for efficient queries
+- Sample data: 12 assets across 6 sectors, 2 portfolios with positions, and market prices
 
-### 4. Install Python Dependencies
+### Step 5: Install the Python Dependency
 
 ```bash
 pip install psycopg2-binary
 ```
 
-### 5. Configure Database Connection
+### Step 6: Update the Database Connection (if needed)
 
-Open `app.py` and update `DB_CONFIG` if your PostgreSQL settings differ from the defaults:
+Open `app.py` in any text editor. At the top, you'll see:
 
 ```python
 DB_CONFIG = {
     "host": "localhost",
     "port": "5432",
-    "dbname": "portfolio_mvcc",
+    "dbname": "portfolio_risk",
     "user": "postgres",
     "password": "postgres",
 }
 ```
 
-### 6. Run the Application
+If your PostgreSQL username, password, or port are different, update them here.
+
+### Step 7: Run the Application
 
 ```bash
 python app.py
 ```
+
+You should see a menu with three options:
+1. Portfolio Risk Snapshot
+2. What-If Scenario Simulation
+3. MVCC Concurrent Access Demo
 
 ---
 
@@ -93,3 +113,14 @@ python app.py
 **Indexes:**
 - `idx_prices_asset_as_of` on prices(asset_id, as_of DESC) for efficient latest-price lookups
 - `idx_positions_portfolio` on positions(portfolio_id) for fast portfolio queries
+---
+
+## Troubleshooting
+
+**"psql is not recognized"** — PostgreSQL's bin folder is not in your PATH. On Windows, add `C:\Program Files\PostgreSQL\16\bin` to your system PATH, or use the full path to psql.
+
+**"no module named psycopg2"** — Run `pip install psycopg2-binary`. If that doesn't work, try `pip3 install psycopg2-binary`.
+
+**"connection refused"** — PostgreSQL is not running. Start the PostgreSQL service (see Step 2 above).
+
+**"password authentication failed"** — Update the password in `DB_CONFIG` inside `app.py` to match your PostgreSQL password.
