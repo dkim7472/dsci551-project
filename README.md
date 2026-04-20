@@ -47,7 +47,7 @@ cd dsci551-project
 ### Step 3: Create the Database
 
 ```bash
-psql -U postgres -c "CREATE DATABASE portfolio_mvcc;"
+psql -U postgres -c "CREATE DATABASE portfolio_risk;"
 ```
 
 If prompted for a password, enter your PostgreSQL password (default is usually `postgres`).
@@ -114,13 +114,3 @@ You should see a menu with three options:
 - `idx_prices_asset_as_of` on prices(asset_id, as_of DESC) for efficient latest-price lookups
 - `idx_positions_portfolio` on positions(portfolio_id) for fast portfolio queries
 ---
-
-## Troubleshooting
-
-**"psql is not recognized"** — PostgreSQL's bin folder is not in your PATH. On Windows, add `C:\Program Files\PostgreSQL\16\bin` to your system PATH, or use the full path to psql.
-
-**"no module named psycopg2"** — Run `pip install psycopg2-binary`. If that doesn't work, try `pip3 install psycopg2-binary`.
-
-**"connection refused"** — PostgreSQL is not running. Start the PostgreSQL service (see Step 2 above).
-
-**"password authentication failed"** — Update the password in `DB_CONFIG` inside `app.py` to match your PostgreSQL password.
