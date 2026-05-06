@@ -88,14 +88,30 @@ If your PostgreSQL username, password, or port are different, update them here.
 
 ### Step 7: Run the Application
 
+In your terminal, run:
+
 ```bash
 python app.py
 ```
 
 You should see a menu with three options:
-1. Portfolio Risk Snapshot
-2. What-If Scenario Simulation
-3. MVCC Concurrent Access Demo
+
+```
+  Main Menu:
+    [1] Portfolio Risk Snapshot
+    [2] What-If Scenario Simulation
+    [3] MVCC Concurrent Access Demo
+    [4] Exit
+```
+---
+
+## Using the Application
+
+**Option 1:  Portfolio Risk Snapshot:** Select a portfolio by ID. The application displays total portfolio value, cost basis, unrealized P&L, sector-by-sector breakdown with percentage weights, and a table of all individual holdings. All data is queried inside a REPEATABLE READ transaction, guaranteeing a consistent snapshot.
+
+**Option 2:  What-If Scenario Simulation:** Select a portfolio and choose a preset scenario (e.g., Tech Crash, Market Rally, Energy Crisis) or build a custom one. The application walks through each step interactively. Press Enter to read the original value, apply price changes, recalculate, rollback, and verify the data is unchanged.
+
+**Option 3: MVCC Concurrent Access Demo:** The application opens two separate database connections. It updates a price on one connection without committing, then shows that the other connection still sees the original price. After rollback, both connections see the original data again. Each step waits for you to press Enter.
 
 ---
 
