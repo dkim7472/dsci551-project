@@ -114,19 +114,39 @@ You should see a menu with three options:
 **Option 3: MVCC Concurrent Access Demo:** The application opens two separate database connections. It updates a price on one connection without committing, then shows that the other connection still sees the original price. After rollback, both connections see the original data again. Each step waits for you to press Enter.
 
 ---
+## Credentials
 
-## Database Schema
+This project uses a local PostgreSQL database. The default connection settings in `app.py` are:
 
-- **portfolios** — Portfolio metadata (portfolio_id, name, owner, created_at)
-- **assets** — Financial instruments (asset_id, symbol, name, sector, asset_type)
-- **positions** — Holdings linking portfolios to assets (position_id, portfolio_id, asset_id, quantity, avg_cost)
-- **prices** — Market prices with timestamps (price_id, asset_id, price, as_of)
+- **User:** `postgres`
+- **Password:** `postgres`
+- **Host:** `localhost`
+- **Port:** `5432`
 
-**Views:**
-- **latest_prices** — Most recent price per asset using DISTINCT ON
-- **portfolio_holdings** — Joined view computing market values and unrealized P&L
+No external API keys or secret keys are required. If your PostgreSQL password is different from `postgres`, update the `DB_CONFIG` dictionary at the top of `app.py` before running the application.
 
-**Indexes:**
-- `idx_prices_asset_as_of` on prices(asset_id, as_of DESC) for efficient latest-price lookups
-- `idx_positions_portfolio` on positions(portfolio_id) for fast portfolio queries
 ---
+
+## Dataset
+
+This project uses a synthetic dataset that is included in the repository as `sql/schema_and_seed.sql`. The dataset is loaded into the database automatically when you run Step 4 of the setup instructions. No external download is required.
+
+The seed data includes:
+- 2 portfolios (Growth Portfolio and Conservative Portfolio)
+- 12 assets across 6 sectors (Technology, Finance, Healthcare, Energy, Index, Fixed Income)
+- 9 positions in the Growth Portfolio and 7 positions in the Conservative Portfolio
+- 18 price records including current and historical prices (7-day and 14-day intervals)
+
+---
+
+## Troubleshooting
+
+**"psql is not recognized"** — PostgreSQL's bin folder is not in your PATH. On Windows, add `C:\Program Files\PostgreSQL\16\bin` to your system PATH, or use the full path to psql.
+
+**"no module named psycopg2"** — Run `pip install psycopg2-binary`. If that doesn't work, try `pip3 install psycopg2-binary`.
+
+**"connection refused"** — PostgreSQL is not running. Start the PostgreSQL service (see Step 2).
+
+**"password authentication failed"** — Update the password in `DB_CONFIG` inside `app.py` to match your PostgreSQL password.
+
+**"database portfolio_risk does not exist"** — You need to create the database first. Run Step 3.
