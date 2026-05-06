@@ -34,8 +34,12 @@ def portfolio_snapshot():
     Uses REPEATABLE READ so all queries see the same consistent data.
     """
     show_portfolios()
-    portfolio_id = int(input("\n  Enter portfolio ID: "))
-
+    while True:
+        try:
+            portfolio_id = int(input("\n Enter portfolio ID: "))
+            break
+        except ValueError:
+            print("  Please enter a valid number.")
     conn = get_connection()
     conn.set_session(isolation_level="REPEATABLE READ", readonly=True)
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -124,7 +128,12 @@ def whatif_simulation():
     Interactive step-by-step with pauses so you control the pacing.
     """
     show_portfolios()
-    portfolio_id = int(input("\n  Enter portfolio ID: "))
+    while True:
+        try:
+            portfolio_id = int(input("\n Enter portfolio ID: "))
+            break
+        except ValueError:
+            print(" Please enter a valid number.")
 
     conn = get_connection()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
