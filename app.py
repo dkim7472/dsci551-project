@@ -129,7 +129,6 @@ def whatif_simulation():
     conn = get_connection()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-    # Show available sectors
     cur.execute("SELECT DISTINCT sector FROM assets ORDER BY sector;")
     sectors = [r['sector'] for r in cur.fetchall()]
 
@@ -157,7 +156,7 @@ def whatif_simulation():
     print(f"  WHAT-IF SIMULATION: {scenario_name}")
     print(f"{'='*60}")
 
-    # ── Step 1 ──
+    #  Step 1 
     input("\n  >> Press Enter to BEGIN transaction and read original value...")
 
     cur.execute("""
@@ -170,7 +169,7 @@ def whatif_simulation():
     print(f"\n  Original Value: ${before['total_value']:,.2f}")
     print(f"  Original P&L:   ${before['total_pnl']:,.2f}")
 
-    # ── Step 2 ──
+    #  Step 2 
     input("\n  >> Press Enter to apply price adjustments (UPDATE)...")
 
     print(f"\n  PostgreSQL creates NEW row versions. Old rows are NOT overwritten.")
@@ -185,7 +184,7 @@ def whatif_simulation():
         """, (multiplier, sector))
         print(f"    {sector}: {pct_change:+}% applied ({cur.rowcount} rows)")
 
-    # ── Step 3 ──
+    # Step 3 
     input("\n  >> Press Enter to recalculate portfolio with simulated prices...")
 
     cur.execute("""
@@ -201,7 +200,7 @@ def whatif_simulation():
     print(f"  Simulated P&L:   ${after['total_pnl']:,.2f}")
     print(f"  Impact:           ${change:,.2f} ({change_pct:+.2f}%)")
 
-    # ── Step 4 ──
+    # Step 4 
     input("\n  >> Press Enter to ROLLBACK the transaction...")
 
     conn.rollback()
@@ -209,7 +208,7 @@ def whatif_simulation():
     print(f"  The temporary price changes have been discarded.")
     print(f"  Original data is restored.")
 
-    # ── Step 5 ──
+    # Step 5 
     input("\n  >> Press Enter to verify data is unchanged...")
 
     cur.execute("""
